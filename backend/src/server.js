@@ -1,31 +1,35 @@
-require('dotenv').config();
-const express = require('express');
-const db = require('/home/user/sortinghat/backend/src/config/db'); // Use absolute path
-const apiRouter = require('/home/user/sortinghat/backend/src/routes/api'); // Use absolute path
+import express from "express";
+import dotenv from "dotenv";
+import { connectDB } from "./config/db.js";
+import authRouter from "./routes/authRoutes.js";
+
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use('/api', apiRouter);
+app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('Express server is running!');
+// Auth routes
+app.use("/api/auth", authRouter);
+
+app.get("/", (req, res) => {
+  res.send("Express server is running!");
 });
 
-
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+connectDB().then(() => {
+  app.listen(port, () => {
+    console.log(`Server listening on port ${port}`);
+  });
 });
 
-// Handle graceful shutdown
-process.on('SIGINT', async () => {
-  console.log('Server shutting down...');
-  await db.endConnection(); // Call the endConnection method from the db module
-  process.exit(0);
-});
-
-// Basic error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send('Something went wrong!');
+  res.status(500).send("Something went wrong!");
+});
+
+process.on("SIGINT", async () => {
+  console.log("Server shutting down...");
+  await (await import("mongoose")).connection.close();
+  process.exit(0);
 });

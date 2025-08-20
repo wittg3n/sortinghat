@@ -1,24 +1,41 @@
 {
-  "name": "backend",
+  "name": "sortinghat-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "Backend for SortingHat project – Express API with MongoDB, JWT auth, and Google login support",
+  "main": "src/server.js",
+  "type": "module",
   "scripts": {
-    "dev": "nodemon src/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "echo \"Error: lint command not specified\" && exit 1",
-    "build": "echo \"Error: build command not specified\" && exit 1",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js --watch src",
+    "lint": "eslint src --fix",
+    "build": "echo \"No build step required for backend\"",
+    "test": "echo \"No tests defined\"",
     "deploy": "npm run test && npm run lint && npm run build && echo \"Deployment simulation complete.\""
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "keywords": [
+    "express",
+    "mongodb",
+    "mongoose",
+    "jwt",
+    "auth",
+    "nodejs"
+  ],
+  "author": "WiTTg3N wittg3n@gmail.com",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
-    "mysql2": "^3.14.3"
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.17.2"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "eslint": "^8.55.0"
   }
 }

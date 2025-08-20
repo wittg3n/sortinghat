@@ -1,43 +1,13 @@
-const mysql = require('mysql2/promise');
-const dotenv = require('dotenv');
+// ./config/db.js
+import mongoose from "mongoose";
 
-dotenv.config();
-
-const dbConfig = {
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'sortinghat',
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
-};
-
-let pool;
-
-async function connectDB() {
+export const connectDB = async () => {
   try {
-    if (!pool) {
-      pool = mysql.createPool(dbConfig);
-      console.log('MySQL connection pool created.');
-    }
-    // Ping the database to check the connection
-    const connection = await pool.getConnection();
-    await connection.ping();
-    connection.release();
-    console.log('Successfully connected to the database.');
-  } catch (error) {
-    console.error('Database connection failed:', error.message);
-    // Depending on your application's needs, you might want to exit the process
-    // process.exit(1);
-  }
-}
+    await mongoose.connect(process.env.MONGO_URI);
 
-function getPool() {
-  if (!pool) {
-    throw new Error('Database pool not initialized. Call connectDB first.');
+    console.log("MongoDB connected");
+  } catch (err) {
+    console.error("MongoDB connection failed:", err.message);
+    process.exit(1);
   }
-  return pool;
-}
-
-module.exports = { connectDB, getPool };
+};
