@@ -1,0 +1,33 @@
+- Tailwind
+
+{ 'rose_red': { DEFAULT: '#ca054d', 100: '#290110', 200: '#52021f', 300: '#7a032f', 400: '#a3043e', 500: '#ca054d', 600: '#f91468', 700: '#fa4f8e', 800: '#fc8ab4', 900: '#fdc4d9' }, 'dark_purple': { DEFAULT: '#3b1c32', 100: '#0c060a', 200: '#180b14', 300: '#23111e', 400: '#2f1628', 500: '#3b1c32', 600: '#753763', 700: '#ae5294', 800: '#c98cb8', 900: '#e4c5db' }, 'celadon': { DEFAULT: '#a4d4b4', 100: '#183321', 200: '#306742', 300: '#489a64', 400: '#72bc8a', 500: '#a4d4b4', 600: '#b7ddc4', 700: '#c9e6d2', 800: '#dbeee1', 900: '#edf7f0' }, 'black_olive': { DEFAULT: '#3f4531', 100: '#0d0e0a', 200: '#191b13', 300: '#26291d', 400: '#323727', 500: '#3f4531', 600: '#697351', 700: '#919d75', 800: '#b6bea3', 900: '#daded1' }, 'atomic_tangerine': { DEFAULT: '#ffa987', 100: '#4e1600', 200: '#9b2c00', 300: '#e94200', 400: '#ff7037', 500: '#ffa987', 600: '#ffb99d', 700: '#ffcab6', 800: '#ffdcce', 900: '#ffede7' } }
+
+- CSV
+
+ca054d,3b1c32,a4d4b4,3f4531,ffa987
+
+- With #
+
+#ca054d, #3b1c32, #a4d4b4, #3f4531, #ffa987
+
+- Array
+
+["ca054d","3b1c32","a4d4b4","3f4531","ffa987"]
+
+- Object
+
+{"Rose red":"ca054d","Dark purple":"3b1c32","Celadon":"a4d4b4","Black olive":"3f4531","Atomic tangerine":"ffa987"}
+
+- Extended Array
+
+[{"name":"Rose red","hex":"ca054d","rgb":[202,5,77],"cmyk":[0,98,62,21],"hsb":[338,98,79],"hsl":[338,95,41],"lab":[43,69,17]},{"name":"Dark purple","hex":"3b1c32","rgb":[59,28,50],"cmyk":[0,53,15,77],"hsb":[317,53,23],"hsl":[317,36,17],"lab":[15,19,-8]},{"name":"Celadon","hex":"a4d4b4","rgb":[164,212,180],"cmyk":[23,0,15,17],"hsb":[140,23,83],"hsl":[140,36,74],"lab":[81,-22,11]},{"name":"Black olive","hex":"3f4531","rgb":[63,69,49],"cmyk":[9,0,29,73],"hsb":[78,29,27],"hsl":[78,17,23],"lab":[28,-7,11]},{"name":"Atomic tangerine","hex":"ffa987","rgb":[255,169,135],"cmyk":[0,34,47,0],"hsb":[17,47,100],"hsl":[17,100,76],"lab":[77,28,31]}]
+
+- XML
+
+<palette>
+  <color name="Rose red" hex="ca054d" r="202" g="5" b="77" />
+  <color name="Dark purple" hex="3b1c32" r="59" g="28" b="50" />
+  <color name="Celadon" hex="a4d4b4" r="164" g="212" b="180" />
+  <color name="Black olive" hex="3f4531" r="63" g="69" b="49" />
+  <color name="Atomic tangerine" hex="ffa987" r="255" g="169" b="135" />
+</palette>
