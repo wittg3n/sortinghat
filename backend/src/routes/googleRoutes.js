@@ -7,8 +7,8 @@ import {
 
 const router = express.Router();
 
-router.get("/auth", googleAuth);
-router.get("/auth/callback", googleCallback);
+router.get("/google-auth", googleAuth);
+router.get("/google-auth/callback", googleCallback);
 router.post("/send", sendMail);
 
 export default router;
