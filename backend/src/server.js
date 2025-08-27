@@ -21,7 +21,8 @@ app.use(
 // CORS: allow Next.js frontend
 const allowedOrigins = [
   "http://localhost:3000", // local frontend
-  "http://localhost:3001", // in case frontend runs separately
+  "http://localhost:3001",
+  "http://localhost:3002", // in case frontend runs separately
 ].filter(Boolean);
 
 app.use(

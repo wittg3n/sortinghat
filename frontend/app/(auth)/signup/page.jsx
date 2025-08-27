@@ -1,4 +1,4 @@
-import { SignupForm } from "@/components/signup-form";
+import { SignupForm } from "@/components/AuthSheet";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 export default function LoginPage() {
   return (
