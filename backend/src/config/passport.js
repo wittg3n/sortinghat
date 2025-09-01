@@ -29,7 +29,8 @@ passport.use(
 // ---------- JWT Strategy for protected routes ----------
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromExtractors([
-    (req) => req?.cookies?.token || null, // extract token from cookie
+    ExtractJwt.fromAuthHeaderAsBearerToken(), // ✅ support Authorization: Bearer <token>
+    (req) => req?.cookies?.token || null, // ✅ also support cookie
   ]),
   secretOrKey: process.env.JWT_SECRET,
 };

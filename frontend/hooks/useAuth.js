@@ -13,12 +13,13 @@ export default function useAuth() {
     setError("");
 
     try {
+      console.log(body);
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-
+      console.log(res);
       if (!res.ok) {
         const errData = await res.json().catch(() => ({}));
         throw new Error(errData.message || "Authentication failed");

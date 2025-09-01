@@ -15,8 +15,7 @@ const userController = {
       if (existingUser)
         return res.status(400).json({ message: "Email exists" });
 
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const newUser = new User({ name, email, password: hashedPassword });
+      const newUser = new User({ name, email, password });
       await newUser.save();
 
       const token = generateToken(newUser);
@@ -47,6 +46,7 @@ const userController = {
   },
 
   getProfile: (req, res) => {
+    console.log("yo");
     res.status(200).json({
       name: req.user.name,
       email: req.user.email,
