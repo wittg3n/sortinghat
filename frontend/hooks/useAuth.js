@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 export default function useAuth() {
   const [loading, setLoading] = useState(false);
@@ -31,7 +31,7 @@ export default function useAuth() {
         localStorage.setItem("token", data.token);
       }
 
-      router.push("/profile"); // Redirect on success
+      redirect("/dashboard"); // Redirect on success
     } catch (err) {
       setError(err.message || "Something went wrong");
     } finally {

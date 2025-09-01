@@ -74,6 +74,9 @@ const userController = {
     res.clearCookie("token");
     res.status(200).json({ message: "Logged out successfully" });
   },
+  isLoggedIn: (req, res) => {
+    res.status(200).json({ message: "logged in before" });
+  },
 };
 
 export default userController;

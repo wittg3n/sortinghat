@@ -35,7 +35,11 @@ router.put(
   upload.single("profilePicture"),
   userController.updateProfilePicture
 );
-
+router.get(
+  "/loggedin",
+  passport.authenticate("jwt", { session: false }),
+  userController.isLoggedIn
+);
 router.delete("/logout", userController.logout);
 
 export default router;
