@@ -1,11 +1,15 @@
 {
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend -- --port 3002\"",
-    "front": "npm run dev --prefix frontend -- --port 3002",
+    "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend -- --port 3000\"",
+    "front": "npm run dev --prefix frontend -- --port 3000",
     "back": "npm run dev --prefix backend"
   },
   "dependencies": {
     "concurrently": "^8.2.0",
-    "ogl": "^1.0.11"
+    "cookie-parser": "^1.4.7",
+    "jsonwebtoken": "^9.0.2",
+    "nanoid": "^5.1.5",
+    "ogl": "^1.0.11",
+    "passport-jwt": "^4.0.1"
   }
 }
