@@ -10,7 +10,8 @@ export async function middleware(req) {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/v1/users/validate-token",
+        // ⚠️ Use 127.0.0.1 instead of localhost for Edge runtime, or deploy URL
+        "http://127.0.0.1:5000/api/v1/users/validate-token",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -20,9 +21,14 @@ export async function middleware(req) {
 
       if (response.status === 200) {
         const data = await response.json();
-        // Optionally pass user info
-        req.headers.set("x-user", JSON.stringify(data.user));
-        return NextResponse.next({ request: { headers: req.headers } });
+
+        // Clone headers (immutable otherwise)
+        const requestHeaders = new Headers(req.headers);
+        requestHeaders.set("x-user", JSON.stringify(data.user));
+
+        return NextResponse.next({
+          request: { headers: requestHeaders },
+        });
       }
 
       if (response.status === 400) {
@@ -53,4 +59,5 @@ export async function middleware(req) {
 
 export const config = {
   matcher: ["/dashboard/:path*"],
+  runtime: "nodejs", // 👈 ensure fetch works with localhost
 };
