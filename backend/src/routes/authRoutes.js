@@ -41,5 +41,5 @@ router.get(
   userController.isLoggedIn
 );
 router.delete("/logout", userController.logout);
-
+router.post("/validate-token", userController.tokenValidator);
 export default router;

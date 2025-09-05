@@ -2,27 +2,24 @@
 
 import * as React from "react";
 import {
-  IconCamera,
-  IconChartBar,
   IconDashboard,
-  IconDatabase,
-  IconFileAi,
+  IconUser,
   IconFileDescription,
-  IconFileWord,
+  IconSchool,
+  IconBrain,
   IconFolder,
-  IconHelp,
-  IconInnerShadowTop,
-  IconListDetails,
-  IconReport,
-  IconSearch,
+  IconMail,
+  IconBell,
   IconSettings,
-  IconUsers,
+  IconHelp,
 } from "@tabler/icons-react";
 import { Logo } from "@/components/logo";
 import { NavDocuments } from "@/components/nav-documents";
 import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import axios from "axios";
 import {
   Sidebar,
   SidebarContent,
@@ -35,144 +32,61 @@ import {
 
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    name: "علی رضایی",
+    email: "ali@example.com",
+    avatar: "/avatars/user.jpg",
   },
   navMain: [
-    {
-      title: "Dashboard",
-      url: "#",
-      icon: IconDashboard,
-    },
-    {
-      title: "Lifecycle",
-      url: "#",
-      icon: IconListDetails,
-    },
-    {
-      title: "Analytics",
-      url: "#",
-      icon: IconChartBar,
-    },
-    {
-      title: "Projects",
-      url: "#",
-      icon: IconFolder,
-    },
-    {
-      title: "Team",
-      url: "#",
-      icon: IconUsers,
-    },
-  ],
-  navClouds: [
-    {
-      title: "Capture",
-      icon: IconCamera,
-      isActive: true,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Proposal",
-      icon: IconFileDescription,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Prompts",
-      icon: IconFileAi,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
+    { title: "مدیریت", url: "#", icon: IconDashboard },
+    { title: "پروفایل من", url: "#", icon: IconUser },
+    { title: "مدارک", url: "#", icon: IconFileDescription },
+    { title: "انتخاب دانشگاه", url: "#", icon: IconSchool },
+    { title: "پیشنهادات AI", url: "#", icon: IconBrain },
+    { title: "درخواست‌ها", url: "#", icon: IconFolder },
+    { title: "ایمیل‌ها", url: "#", icon: IconMail },
+    { title: "نوتیفیکیشن‌ها", url: "#", icon: IconBell },
   ],
   navSecondary: [
-    {
-      title: "Settings",
-      url: "#",
-      icon: IconSettings,
-    },
-    {
-      title: "Get Help",
-      url: "#",
-      icon: IconHelp,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: IconSearch,
-    },
+    { title: "تنظیمات", url: "#", icon: IconSettings },
+    { title: "راهنما / پشتیبانی", url: "#", icon: IconHelp },
   ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: IconDatabase,
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: IconReport,
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: IconFileWord,
-    },
-  ],
+  documents: [],
 };
-
+const getData = () => {};
 export function AppSidebar({ ...props }) {
   return (
-    <Sidebar collapsible="offcanvas" side=" right" {...props}>
+    <Sidebar
+      collapsible="offcanvas"
+      side="right" // 👈 سایدبار در سمت راست
+      className="text-right"
+      {...props}
+    >
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
+              className="data-[slot=sidebar-menu-button]:!p-1.5 flex-row-reverse justify-end gap-2"
             >
               <a href="#">
-                <Logo className={"w-20 h-auto"}></Logo>
-                <span className="text-base font-semibold">مجیک هت</span>
+                <span className="text-base font-semibold">سورتینگ‌هت</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent>
+
+      <SidebarContent className="text-right">
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        {data.documents.length > 0 && (
+          <NavDocuments items={data.documents} className={"cursor-pointer"} />
+        )}
+        <NavSecondary
+          items={data.navSecondary}
+          className="mt-auto cursor-pointer"
+        />
       </SidebarContent>
+
       <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>

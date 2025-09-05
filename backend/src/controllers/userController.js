@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
 import User from "../schema/User.js";
 
 const generateToken = (user) =>
@@ -33,7 +32,6 @@ const userController = {
   },
 
   login: async (req, res) => {
-    // Passport has already validated user and attached to req.user
     const token = generateToken(req.user);
     console.log(token);
     res.cookie("token", token, {
@@ -76,6 +74,29 @@ const userController = {
   },
   isLoggedIn: (req, res) => {
     res.status(200).json({ message: "logged in before" });
+  },
+  tokenValidator: (req, res) => {
+    const { token } = req.body;
+    console.log("ur in token-validator route");
+    if (!token) {
+      return res
+        .status(400)
+        .json({ valid: false, message: "No token provided" });
+    }
+
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+      return res.status(200).json({
+        valid: true,
+        user: decoded, // send decoded info (id, email)
+      });
+    } catch (err) {
+      return res.status(401).json({
+        valid: false,
+        message: "Invalid or expired token",
+      });
+    }
   },
 };
 

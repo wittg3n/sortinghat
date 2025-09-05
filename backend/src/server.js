@@ -31,7 +31,7 @@ app.use(cookieParser());
 app.use(passport.initialize());
 
 // Routes
-app.use("/api/users", authRoutes);
+app.use("/api/v1/users", authRoutes);
 app.use("/uploads", express.static("uploads"));
 
 // Root healthcheck

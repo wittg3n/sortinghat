@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { redirect, useRouter } from "next/navigation";
-
+import { toast } from "sonner";
 export default function useAuth() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [toastId, setToastId] = useState(null);
   const router = useRouter();
 
   const authenticate = async (endpoint, body) => {
@@ -18,6 +19,7 @@ export default function useAuth() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
+        credentials: "include", // 👈 important!
       });
       console.log(res);
       if (!res.ok) {
@@ -31,8 +33,9 @@ export default function useAuth() {
         localStorage.setItem("token", data.token);
       }
 
-      redirect("/dashboard"); // Redirect on success
+      router.push("/dashboard"); // Redirect on success
     } catch (err) {
+      console.error(err);
       setError(err.message || "Something went wrong");
     } finally {
       setLoading(false);
@@ -40,11 +43,17 @@ export default function useAuth() {
   };
 
   const login = async (credentials) => {
-    return authenticate("http://localhost:5000/api/users/login", credentials);
+    return authenticate(
+      "http://localhost:5000/api/v1/users/login",
+      credentials
+    );
   };
 
   const signup = async (credentials) => {
-    return authenticate("http://localhost:5000/api/users/signup", credentials);
+    return authenticate(
+      "http://localhost:5000/api/v1/users/signup",
+      credentials
+    );
   };
 
   return { login, signup, loading, error };
