@@ -29,7 +29,7 @@ export function NavMain({ items }) {
                   className={`flex items-center gap-2 px-2 py-1 rounded
     ${
       active
-        ? "bg-orange-400 text-gray-900 pointer-events-none"
+        ? "bg-orange-300 text-gray-900 pointer-events-none"
         : "text-gray-100 hover:bg-gray-700"
     }`}
                 >

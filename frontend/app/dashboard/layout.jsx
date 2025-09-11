@@ -1,16 +1,11 @@
-"use client";
-
-import { useState } from "react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { cookies } from "next/headers";
 import { AppSidebar } from "@/components/dashboard/app-sidebar";
-import { ChartAreaInteractive } from "@/components/chart-area-interactive";
-import { DataTable } from "@/components/data-table";
-import { SectionCards } from "@/components/section-cards";
 import { SiteHeader } from "@/components/dashboard/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-export default function Layout({ children }) {
-  const [menuOpen, setMenuOpen] = useState(false);
+
+export default async function Layout({ children }) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
 
   return (
     <SidebarProvider
@@ -19,7 +14,7 @@ export default function Layout({ children }) {
         "--header-height": "calc(var(--spacing) * 12)",
       }}
     >
-      <AppSidebar variant="inset" />
+      <AppSidebar variant="inset" token={token} />
       <SidebarInset>
         <SiteHeader />
         {children}
