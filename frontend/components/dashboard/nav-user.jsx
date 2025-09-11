@@ -25,9 +25,28 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export function NavUser({ user }) {
   const { isMobile } = useSidebar();
+  const router = useRouter();
+
+  async function handleLogout() {
+    try {
+      await axios.delete("http://localhost:5000/api/v1/users/logout", {
+        withCredentials: true,
+      });
+
+      // remove cookie manually (in case backend doesn’t)
+      document.cookie =
+        "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;";
+
+      router.push("/login");
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  }
 
   return (
     <SidebarMenu>
@@ -109,7 +128,10 @@ export function NavUser({ user }) {
 
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem className="flex flex-row-reverse gap-2">
+            <DropdownMenuItem
+              className="flex flex-row-reverse gap-2 cursor-pointer"
+              onClick={handleLogout}
+            >
               <LogOut />
               خروج
             </DropdownMenuItem>

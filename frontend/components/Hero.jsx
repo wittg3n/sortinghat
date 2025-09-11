@@ -7,46 +7,67 @@ import { RainbowButton } from "@/components/magicui/rainbow-button";
 import { Badge } from "@/components/ui/badge";
 import { BorderBeam } from "./magicui/border-beam";
 // 🌀 Animated Background Particles
-const AnimatedBackground = () => {
+
+const COLORS = [
+  "var(--color-teal-400)",
+  "var(--color-magenta-400)",
+  "var(--color-peach-400)",
+];
+
+export const AnimatedBackground = () => {
   const [particles, setParticles] = useState([]);
 
   useEffect(() => {
-    const generatedParticles = Array.from({ length: 50 }, () => ({
-      x: Math.random() * 1000,
-      y: Math.random() * 1000,
-      delay: Math.random() * 5,
-      duration: Math.random() * 10 + 10,
-    }));
-    setParticles(generatedParticles);
+    const generateParticles = () =>
+      Array.from({ length: 60 }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        size: Math.random() * 4 + 2,
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        delay: Math.random() * 5,
+        duration: Math.random() * 15 + 10,
+        path: Array.from({ length: 4 }, () => ({
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+        })),
+      }));
+
+    setParticles(generateParticles());
   }, []);
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {particles.map((particle, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-1 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full shadow-lg "
-          initial={{
-            x: particle.x,
-            y: particle.y,
-            opacity: 0,
-          }}
-          animate={{
-            x: particle.x,
-            y: particle.y,
-            opacity: [0, 1, 0],
-          }}
-          transition={{
-            duration: particle.duration,
-            repeat: Infinity,
-            delay: particle.delay,
-          }}
-        />
-      ))}
+    <div className="hidden md:block absolute inset-0 overflow-hidden pointer-events-none">
+      {particles.map((p, i) => {
+        const path = p.path || [{ x: p.x, y: p.y }]; // fallback
+        return (
+          <motion.div
+            key={i}
+            className="absolute rounded-full"
+            style={{
+              width: p.size,
+              height: p.size,
+              background: p.color,
+              boxShadow: `0 0 ${p.size * 2}px ${p.color}`,
+            }}
+            initial={{ x: p.x, y: p.y, opacity: 0 }}
+            animate={{
+              x: path.map((pos) => pos.x),
+              y: path.map((pos) => pos.y),
+              opacity: [0, 0.8, 0],
+            }}
+            transition={{
+              duration: p.duration,
+              delay: p.delay,
+              repeat: Infinity,
+              repeatType: "loop",
+              ease: "easeInOut",
+            }}
+          />
+        );
+      })}
     </div>
   );
 };
-
 // ⚡ Typewriter Effect Component
 const TypewriterText = ({ text, speed = 70, pause = 2000 }) => {
   const [displayText, setDisplayText] = useState("");
@@ -144,7 +165,7 @@ export const Hero = () => {
             </Badge>
 
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold">
-              <span className="bg-gradient-to-r from-[#370a99] to-[#ea3780] bg-clip-text text-transparent animate-gradient">
+              <span className="bg-gradient-to-r from-orange-300 to-[#ea3780] bg-clip-text text-transparent animate-gradient">
                 مجیک هت
               </span>
             </h1>

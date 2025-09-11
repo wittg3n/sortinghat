@@ -6,7 +6,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 export default async function Layout({ children }) {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
-
+  console.log(token);
   return (
     <SidebarProvider
       style={{
