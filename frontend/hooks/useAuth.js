@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { redirect, useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+
 export default function useAuth() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [toastId, setToastId] = useState(null);
   const router = useRouter();
 
   const authenticate = async (endpoint, body) => {
@@ -14,26 +13,20 @@ export default function useAuth() {
     setError("");
 
     try {
-      console.log(body);
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
-        credentials: "include", // 👈 important!
+        credentials: "include", // send cookies automatically
       });
-      console.log(res);
+
       if (!res.ok) {
         const errData = await res.json().catch(() => ({}));
         throw new Error(errData.message || "Authentication failed");
       }
 
-      const data = await res.json();
-
-      if (data.token) {
-        localStorage.setItem("token", data.token);
-      }
-
-      router.push("/dashboard"); // Redirect on success
+      // Success: no need to store token manually
+      router.push("/dashboard");
     } catch (err) {
       console.error(err);
       setError(err.message || "Something went wrong");
@@ -42,19 +35,26 @@ export default function useAuth() {
     }
   };
 
-  const login = async (credentials) => {
-    return authenticate(
-      "http://localhost:5000/api/v1/users/login",
-      credentials
-    );
+  const login = (credentials) =>
+    authenticate("http://localhost:5000/api/v1/users/login", credentials);
+
+  const signup = (credentials) =>
+    authenticate("http://localhost:5000/api/v1/users/signup", credentials);
+
+  const logout = async () => {
+    setLoading(true);
+    try {
+      await fetch("http://localhost:5000/api/v1/users/logout", {
+        method: "DELETE",
+        credentials: "include",
+      });
+      router.push("/login");
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const signup = async (credentials) => {
-    return authenticate(
-      "http://localhost:5000/api/v1/users/signup",
-      credentials
-    );
-  };
-
-  return { login, signup, loading, error };
+  return { login, signup, logout, loading, error };
 }
