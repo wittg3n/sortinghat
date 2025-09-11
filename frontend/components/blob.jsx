@@ -10,10 +10,26 @@ export const Blob = () => {
       xmlns="http://www.w3.org/2000/svg"
       // xmlns:xlink removed
     >
+      <defs>
+        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#e78952" />
+          <stop offset="100%" stopColor="#faca97" />
+        </linearGradient>
+
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="15" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
       <g transform="translate(473.5612894291919 302.4675056784148)">
         <path
           d="M145 -225.9C181.8 -201.9 201.4 -151.4 206.6 -104.7C211.7 -58 202.4 -15.1 187.7 20.9C173 56.9 153 86.1 134.3 127.2C115.5 168.3 98.1 221.4 66.1 235.6C34.1 249.8 -12.4 225.2 -44.7 195.8C-77 166.4 -95.2 132.3 -132.7 105.7C-170.3 79.1 -227.2 60 -246.8 26C-266.4 -7.9 -248.7 -56.7 -221.9 -95.5C-195.1 -134.3 -159.2 -163 -120.7 -186.3C-82.2 -209.5 -41.1 -227.3 6.5 -237.4C54.1 -247.5 108.1 -249.9 145 -225.9"
-          fill="#c3f3ff"
+          fill="url(#grad)"
+          filter="url(#glow)"
         />
       </g>
     </svg>

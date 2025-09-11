@@ -147,24 +147,21 @@ export default function Home() {
   ];
 
   return (
-    <div
-      dir="rtl"
-      className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20"
-    >
+    <div dir="rtl" className="min-h-screen bg-gradient-to-br ">
       <HeroHeader />
 
       {/* Hero Section */}
       <Hero />
 
       {/* Animation + Info Section */}
-      <section className="py-24 md:py-32 bg-gradient-to-br from-slate-50 via-white to-slate-50">
+      <section className="py-24 md:py-32 bg-gradient-to-br from-gray-900 via-gray-900 to-gray-900">
         <div className="mx-auto w-full max-w-7xl flex flex-col md:flex-row-reverse items-center gap-10 md:gap-20 px-6">
           {/* text side */}
           <div className="flex-1 text-center md:text-right space-y-6">
-            <h2 className="text-4xl md:text-5xl font-[900] tracking-tight text-slate-900 leading-tight">
+            <h2 className="text-4xl md:text-5xl font-[900] tracking-tight text-gray-100 leading-tight">
               هوش مصنوعی در خدمت شما
             </h2>
-            <p className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-md md:max-w-none">
+            <p className="text-lg md:text-xl text-gray-200 leading-relaxed max-w-md md:max-w-none">
               با استفاده از الگوریتم‌های هوش مصنوعی، پیشنهاد بهترین دانشگاه‌ها و
               برنامه‌ها متناسب با پروفایل شما را دریافت کنید. همه چیز در یک
               تجربه ساده و سریع.
@@ -183,7 +180,7 @@ export default function Home() {
             {/* Lottie animation */}
             <div className="w-72 h-72 md:w-96 md:h-96 flex items-center justify-center relative z-10">
               <DotLottieReact
-                src="https://lottie.host/874270ac-f791-4488-bd2d-115218612ee1/8sgI0XzX2R.lottie"
+                src="https://lottie.host/32189718-88ba-4bb7-a552-8a4fb640c487/NZph45fAD9.lottie"
                 loop
                 autoplay
                 className="w-full h-full"
@@ -194,9 +191,9 @@ export default function Home() {
       </section>
 
       {/* Bento Features Section */}
-      <section className="py-24 bg-white/50 backdrop-blur-sm">
+      <section className="py-24 bg-gray-900 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-slate-900 text-center mb-12">
+          <h2 className="text-4xl font-bold text-slate-100 text-center mb-12">
             ویژگی‌های کلیدی
           </h2>
           <BentoGrid className="lg:grid-rows-3">

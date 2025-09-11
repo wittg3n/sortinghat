@@ -29,7 +29,7 @@ export const Logo = ({ className, uniColor }) => {
            C 257.77 177.42 265.39 171.70 272.97 165.94 Z"
         fill={uniColor ? "currentColor" : "url(#logo-gradient)"}
       />
-      <path
+      {/* <path
         d="M 246.63 221.76 C 250.23 214.92 252.65 207.47 256.98 201.01 
            C 261.84 207.97 264.58 216.10 268.68 223.49 
            C 273.63 234.68 279.56 245.38 284.56 256.55 
@@ -42,7 +42,7 @@ export const Logo = ({ className, uniColor }) => {
            C 225.14 264.39 227.44 262.00 227.97 260.16 
            C 234.75 247.63 239.96 234.35 246.63 221.76 Z"
         fill="#fff"
-      />
+      /> */}
       <defs>
         <linearGradient
           id="logo-gradient"
@@ -52,8 +52,8 @@ export const Logo = ({ className, uniColor }) => {
           y2="300"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#7308ffff" />
-          <stop offset="1" stopColor="#861fa5ff" />
+          <stop stopColor="#ffad4c" />
+          <stop offset="1" stopColor="#c749a5" />
         </linearGradient>
       </defs>
     </svg>
@@ -81,7 +81,7 @@ export const LogoIcon = ({ className, uniColor }) => {
           gradientUnits="userSpaceOnUse"
         >
           <stop stopColor="#111111" />
-          <stop offset="1" stopColor="#222222" />
+          <stop offset="1" stopColor="#e78952" />
         </linearGradient>
       </defs>
     </svg>

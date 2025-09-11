@@ -93,9 +93,9 @@ export const HeroHeader = () => {
                   asChild
                   variant="outline"
                   size="sm"
-                  className={cn(isScrolled && "lg:hidden")}
+                  className={cn(isScrolled && "lg:hidden ")}
                 >
-                  <Link href="/login">
+                  <Link href={"/login"}>
                     <span>ورود</span>
                   </Link>
                 </Button>
@@ -104,7 +104,7 @@ export const HeroHeader = () => {
                   size="sm"
                   className={cn(isScrolled && "lg:hidden")}
                 >
-                  <Link href="/signup">
+                  <Link href={"/signup"}>
                     <span>ساخت اکانت</span>
                   </Link>
                 </Button>

@@ -18,15 +18,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html
-      dir="rtl"
-      lang="en"
-      className=" scroll-smooth scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700 scrollbar-track-gray-100 dark:scrollbar-track-gray-900 "
-    >
+    <html dir="rtl" lang="en" className="dark">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <NextTopLoader color="#000000" showSpinner={false}></NextTopLoader>
+        <NextTopLoader color="#ffffff" showSpinner={false}></NextTopLoader>
         {children}
       </body>
     </html>

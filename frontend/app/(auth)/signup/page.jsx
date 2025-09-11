@@ -125,7 +125,13 @@ export default function AnimatedSignupPage() {
             transition={{ delay: 0.2 }}
             className="text-sm text-muted-foreground mt-3 text-center"
           >
-            لطفا اطلاعات خود را وارد کنید
+            حساب کاربری دارید؟{" "}
+            <Link
+              href="/login"
+              className="underline underline-offset-4 hover:text-primary"
+            >
+              وارد شوید
+            </Link>{" "}
           </motion.p>
 
           <Form {...form}>
