@@ -10,7 +10,7 @@ export function QuickActions() {
       <div className="grid md:grid-cols-3 gap-4">
         {/* بارگذاری مدارک */}
         <Link
-          href="/profile"
+          href="/dashboard/profile"
           className="p-4 rounded-lg border border-gray-800 hover:bg-gray-800/50 transition-all duration-300 group"
         >
           <div className="flex items-center gap-3">
@@ -26,7 +26,7 @@ export function QuickActions() {
 
         {/* کاوش دانشگاه‌ها */}
         <Link
-          href="/universities"
+          href="/dashboard/universities"
           className="p-4 rounded-lg border border-gray-800 hover:bg-gray-800/50 transition-colors duration-200 group"
         >
           <div className="flex items-center gap-3">

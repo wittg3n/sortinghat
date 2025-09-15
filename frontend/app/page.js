@@ -30,6 +30,7 @@ import { BentoCard, BentoGrid } from "@/components/magicui/bento-grid";
 import { HeroHeader } from "@/components/header";
 import { Hero } from "@/components/Hero";
 import { Blob } from "@/components/blob";
+import { BentoCostume } from "@/components/BentoGrid-page";
 // 🟦 Bento features
 const bentoFeatures = [
   {
@@ -196,11 +197,12 @@ export default function Home() {
           <h2 className="text-4xl font-bold text-slate-100 text-center mb-12">
             ویژگی‌های کلیدی
           </h2>
-          <BentoGrid className="lg:grid-rows-3">
+          {/* <BentoGrid className="lg:grid-rows-3">
             {bentoFeatures.map((feature) => (
               <BentoCard key={feature.name} {...feature} />
             ))}
-          </BentoGrid>
+          </BentoGrid> */}
+          <BentoCostume />
         </div>
       </section>
 

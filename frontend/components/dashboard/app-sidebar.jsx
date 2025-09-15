@@ -24,7 +24,6 @@ const navMainData = [
 ];
 
 export function AppSidebar({ token, ...props }) {
-  // subscribe to user state from Zustand
   const user = useUserStore((state) => state.user);
   const setUser = useUserStore((state) => state.setUser);
 
@@ -64,7 +63,7 @@ export function AppSidebar({ token, ...props }) {
         <NavUser
           user={
             user || {
-              name: "shadcn",
+              name: "درحال بارگیری ...",
               email: "m@example.com",
               avatar: "/avatars/shadcn.jpg",
             }

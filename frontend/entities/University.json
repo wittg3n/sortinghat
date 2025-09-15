@@ -1,0 +1,102 @@
+[
+  {
+    "ifc": "2200119E8WQ3",
+    "inm": "2200119E",
+    "intituleMention": "Acoustique",
+    "inmp": "",
+    "uai": "0690187D",
+    "modalitesEnseignement": ["Formation initiale"],
+    "candidatable": false,
+    "pc": false,
+    "commentaire": "Ce master est à vocation internationale. Les enseignements sont effectués en anglais.",
+    "lieux": [
+      {
+        "name": "Campus de Lyon de l'Ecole Centrale - ECULLY (69)",
+        "site": "Campus de Lyon de l'Ecole Centrale",
+        "adresseChamp1": "36 avenue Guy de Collongue",
+        "adresseChamp2": "",
+        "adresseChamp3": "",
+        "codePostal": "69130",
+        "ville": "ECULLY",
+        "latLon": { "lat": 45.78282245490811, "lon": 4.766584397345954 },
+        "regionEtDepartement": ["Auvergne-Rhône-Alpes", "Rhône"],
+        "villeEtrangere": false
+      },
+      {
+        "name": "Campus de la Doua - VILLEURBANNE (69)",
+        "site": "Campus de la Doua",
+        "adresseChamp1": "",
+        "adresseChamp2": "",
+        "adresseChamp3": "",
+        "codePostal": "69100",
+        "ville": "VILLEURBANNE",
+        "latLon": { "lat": 45.768975, "lon": 4.890035 },
+        "regionEtDepartement": ["Auvergne-Rhône-Alpes", "Rhône"],
+        "villeEtrangere": false
+      },
+      {
+        "name": "Ecole centrale de Lyon - ECULLY CEDEX (69)",
+        "site": "Ecole centrale de Lyon",
+        "adresseChamp1": "36  AVENUE GUY DE COLLONGUE",
+        "adresseChamp2": "",
+        "codePostal": "69134",
+        "ville": "ECULLY CEDEX",
+        "latLon": { "lat": 45.782519, "lon": 4.766433 },
+        "regionEtDepartement": ["Auvergne-Rhône-Alpes", "Rhône"],
+        "villeEtrangere": false
+      }
+    ],
+    "alternance": false,
+    "motifsLibres": [],
+    "col": 2,
+    "debutRecrutementDate": "2024-11-20",
+    "finRecrutementDate": "2025-04-30",
+    "motifNonRecrutement": "international",
+    "urlSiteRecrutement": "https://candidature.ec-lyon.fr/details?view=programme&cid=68",
+    "juryRectoral": false,
+    "droitsInscription": "Centrale Lyon applique les droits d'inscription différenciés selon la nationalité de l'étudiant. Les tarifs sont détaillées sur la page de la formation du site dans la rubrique Frais d'inscription (en bas du bandeau rouge)",
+    "urlSiteDroitsInscription": "https://www.ec-lyon.fr/formation/international-master-acoustics",
+    "pvr": 2,
+    "indicateursAnneeDerniere": {},
+    "lastModified": "2025-01-23T14:25:07.224"
+  },
+  {
+    "ifc": "1702326E3E1R",
+    "inm": "1702326E",
+    "intituleMention": "Acoustique",
+    "inmp": "1702326-01L",
+    "intituleParcours": "International Master Degree's in Electroacoustic (IMDEA)",
+    "uai": "0720916E",
+    "s3Inmps": [],
+    "modalitesEnseignement": ["Formation initiale"],
+    "candidatable": false,
+    "pc": false,
+    "commentaire": "La candidature au Master IMDEA n'est autorisée qu'aux candidats ayant réussi les tests scientifiques et de motivation de la procédure d'admission : https://imdeacoustics.univ-lemans.fr/en/admission/admission-procedure.html\nContactez-nous si vous souhaitez lancer la procédure d'admission : imdeacoustics@univ-lemans.fr\n\nIMDEA registration is only authorized to applicants who have passed both the scientific and motivation tests of the admission procedure: https://imdeacoustics.univ-lemans.fr/en/admission/admission-procedure.html\nContact us if you wish to start the admission procedure: imdeacoustics@univ-lemans.fr",
+    "lieux": [
+      {
+        "name": "Le Mans Université - LE MANS (72)",
+        "site": "Le Mans Université",
+        "adresseChamp1": "Avenue O. Messiaen",
+        "adresseChamp2": "",
+        "adresseChamp3": "",
+        "codePostal": "72000",
+        "ville": "Le Mans",
+        "latLon": { "lat": 48.01545469311325, "lon": 0.16085354122379666 },
+        "regionEtDepartement": ["Pays de la Loire", "Sarthe"],
+        "villeEtrangere": false
+      }
+    ],
+    "alternance": false,
+    "motifsLibres": [],
+    "col": 14,
+    "debutRecrutementDate": "2025-01-06",
+    "finRecrutementDate": "2025-06-01",
+    "motifNonRecrutement": "international",
+    "urlSiteRecrutement": "https://ecandidats.univ-lemans.fr/",
+    "juryRectoral": false,
+    "droitsInscription": "L'Université du Mans n'applique pas les droits différenciés au sein de l'établissement.",
+    "pvr": 14,
+    "indicateursAnneeDerniere": {},
+    "lastModified": "2025-02-03T10:46:41.04"
+  }
+]

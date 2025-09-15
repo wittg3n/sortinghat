@@ -29,11 +29,20 @@ export function NavMain({ items }) {
                   className={`flex items-center gap-2 px-2 py-1 rounded
     ${
       active
-        ? "bg-orange-300 text-gray-900 pointer-events-none"
-        : "text-gray-100 hover:bg-gray-700"
+        ? "text-white font-bold animation-duration-initial transition-all delay-100"
+        : "text-gray-400 hover:text-gray-200 "
     }`}
                 >
-                  {item.icon && <item.icon />}
+                  {item.icon && (
+                    <item.icon
+                      strokeWidth={active ? 4 : 2}
+                      className={
+                        active
+                          ? "text-white"
+                          : "text-gray-400 group-hover:text-gray-200"
+                      }
+                    />
+                  )}
                   <span>{item.title}</span>
                 </Link>
               </SidebarMenuButton>

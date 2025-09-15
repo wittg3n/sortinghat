@@ -107,7 +107,7 @@ export default function JalaliDatePicker({
                   : ""
               }
               placeholder={placeholder}
-              className="text-right cursor-pointer bg-[#111111] text-[#fca45c] border-0 focus:ring-0 focus:outline-none rounded-xl"
+              className="text-right cursor-pointer bg-[#111111] text-gray-100 border-0 focus:ring-0 focus:outline-none rounded-xl"
             />
           </div>
         </PopoverTrigger>

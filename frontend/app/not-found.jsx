@@ -23,8 +23,7 @@ export default function NotFound() {
             className="flex items-center gap-2 cursor-pointer bg-teal-400 hover:bg-teal-500"
             onClick={() => router.back()}
           >
-            <ArrowLeft className="h-5 w-5" />
-            بازگشت{" "}
+            بازگشت <ArrowLeft className="h-5 w-5" />
           </Button>
         </div>
       </div>

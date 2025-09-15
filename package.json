@@ -6,8 +6,10 @@
     "mongo": "cmd /c \"C: && mongod\""
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.2.3",
     "concurrently": "^8.2.0",
     "cookie-parser": "^1.4.7",
+    "date-fns-jalali": "^4.1.0-0",
     "jsonwebtoken": "^9.0.2",
     "nanoid": "^5.1.5",
     "ogl": "^1.0.11",

@@ -12,9 +12,6 @@ export function DashboardCards({
 }) {
   return (
     <div className="flex flex-col gap-6">
-      {/* کارت خوش‌آمدگویی (می‌توانید SectionCard اضافه کنید اگر لازم است) */}
-
-      {/* کارت‌های آماری */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatsCard
           title="تکمیل پروفایل"
