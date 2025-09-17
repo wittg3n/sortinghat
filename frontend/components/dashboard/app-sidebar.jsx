@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useEffect } from "react";
-import { BookOpen, Settings2, GraduationCap, House } from "lucide-react";
+import { BookOpen, GraduationCap, House } from "lucide-react";
 import { useUserStore } from "@/store/userStore";
 
 import { NavMain } from "@/components/dashboard/nav-main";
@@ -20,7 +20,6 @@ const navMainData = [
   { title: "خانه", url: "/dashboard", icon: House },
   { title: "پروفایل دانشجویی", url: "/dashboard/profile", icon: GraduationCap },
   { title: "دانشگاه ها", url: "/dashboard/universities", icon: BookOpen },
-  { title: "تنظیمات", url: "/dashboard/settings", icon: Settings2 },
 ];
 
 export function AppSidebar({ token, ...props }) {

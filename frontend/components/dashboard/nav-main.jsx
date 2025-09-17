@@ -38,8 +38,8 @@ export function NavMain({ items }) {
                       strokeWidth={active ? 4 : 2}
                       className={
                         active
-                          ? "text-white"
-                          : "text-gray-400 group-hover:text-gray-200"
+                          ? "text-white animation-duration-initial transition-all delay-100"
+                          : "text-gray-400 group-hover:text-gray-200 animation-duration-initial transition-all delay-100"
                       }
                     />
                   )}

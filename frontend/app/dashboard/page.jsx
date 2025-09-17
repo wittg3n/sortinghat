@@ -19,7 +19,7 @@ export default async function Page() {
             gradientFrom="rgba(59,130,246,0.8)"
             gradientTo="rgba(59,130,246,1)"
             circleVariants={circleVariants}
-            className="text-white"
+            className="text-white mx-5"
           >
             <div className="flex flex-wrap gap-3">
               <Link href="/profile">

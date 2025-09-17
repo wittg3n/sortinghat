@@ -155,7 +155,7 @@ export default function ProfilePage() {
   return (
     <main className="flex flex-1 flex-col">
       <div className="@container/main flex flex-1 flex-col gap-2">
-        <section className="pt-6 px-6">
+        <section className="pt-6 px-4 md:px-6">
           <AnimatedCard
             title={
               user?.full_name || "با تکمیل پروفایل، تجربه شخصی‌سازی شده بگیرید"
@@ -180,10 +180,10 @@ export default function ProfilePage() {
           </AnimatedCard>
         </section>
 
-        <section className="grid grid-cols-4 gap-8 pt-5 px-6 mb-10 l">
+        {/* ریسپانسیو */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4  gap-6 pt-5 px-4 md:px-6 mb-10">
           {/* doc upload */}
-
-          <Card className="backdrop-blur-sm border-gray-800 col-span-4">
+          <Card className="backdrop-blur-sm border-gray-800 sm:col-span-2 lg:col-span-4">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="w-5 h-5" />
@@ -235,9 +235,9 @@ export default function ProfilePage() {
               </FileUpload>
             </CardContent>
           </Card>
-          {/* educational info*/}
 
-          <Card className="backdrop-blur-sm border-gray-800 ">
+          {/* educational info */}
+          <Card className="backdrop-blur-sm border-gray-800">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 ">
                 <GraduationCap className="w-5 h-5" />
@@ -326,52 +326,48 @@ export default function ProfilePage() {
               </div>
             </CardContent>
           </Card>
-          {/* countries */}
 
-          <Card className="backdrop-blur-sm border-gray-800 ">
+          {/* countries */}
+          <Card className="backdrop-blur-sm border-gray-800">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Globe className="w-5 h-5" />
                 کشورهای مقصد
               </CardTitle>
             </CardHeader>
-            <CardContent className={"max-h-44 overflow-y-auto"}>
-              {typeof window !== "undefined" && (
-                <>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {profileData.target_countries.map((country) => (
-                      <Badge
-                        key={country}
-                        variant="secondary"
-                        className="bg-orange-100 text-gray-700 cursor-pointer hover:bg-orange-200"
-                        onClick={() => handleCountryChange(country)}
-                      >
-                        {country} ×
-                      </Badge>
-                    ))}
-                  </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    {countries
-                      .filter((c) => !profileData.target_countries.includes(c))
-                      .map((country) => (
-                        <Button
-                          key={country}
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleCountryChange(country)}
-                          className="text-left justify-start"
-                        >
-                          + {country}
-                        </Button>
-                      ))}
-                  </div>
-                </>
-              )}
+            <CardContent className="max-h-44 overflow-y-auto">
+              <div className="flex flex-wrap gap-2 mb-4">
+                {profileData.target_countries.map((country) => (
+                  <Badge
+                    key={country}
+                    variant="secondary"
+                    className="bg-orange-100 text-gray-700 cursor-pointer hover:bg-orange-200"
+                    onClick={() => handleCountryChange(country)}
+                  >
+                    {country} ×
+                  </Badge>
+                ))}
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                {countries
+                  .filter((c) => !profileData.target_countries.includes(c))
+                  .map((country) => (
+                    <Button
+                      key={country}
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleCountryChange(country)}
+                      className="text-left justify-start"
+                    >
+                      + {country}
+                    </Button>
+                  ))}
+              </div>
             </CardContent>
           </Card>
-          {/* checklist */}
 
-          <Card className="backdrop-blur-sm border-gray-800 col-span-2">
+          {/* checklist */}
+          <Card className="backdrop-blur-sm border-gray-800 sm:col-span-2 lg:col-span-2">
             <CardHeader>
               <CardTitle className="text-lg font-semibold text-gray-100 flex items-center gap-2">
                 <BookCheck className="w-5 h-5" />
@@ -414,13 +410,10 @@ export default function ProfilePage() {
             </CardContent>
           </Card>
 
-          <div className="col-span-4 flex  ">
-            <Button
-              className={
-                " bg-teal-400 hover:bg-teal-200 cursor-pointer transition duration-300 ease-in-out"
-              }
-            >
-              <Save />
+          {/* save button */}
+          <div className="col-span-1 sm:col-span-2 lg:col-span-4 flex justify-center">
+            <Button className="bg-teal-400 hover:bg-teal-200 transition duration-300 ease-in-out w-full lg:w-1/3 ">
+              <Save className="ml-2" />
               ذخیره تغییرات
             </Button>
           </div>

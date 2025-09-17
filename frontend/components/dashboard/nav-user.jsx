@@ -106,8 +106,13 @@ export function NavUser({ user }) {
 
             <DropdownMenuGroup>
               <DropdownMenuItem className="flex flex-row-reverse gap-2">
-                <Sparkles />
-                حساب خود را ارتقا دهید
+                <Link
+                  href={"/dashboard/user/payment"}
+                  className="flex flex-row-reverse gap-2"
+                >
+                  <Sparkles />
+                  حساب خود را ارتقا دهید
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
 
