@@ -5,16 +5,16 @@ import { useEffect } from "react";
 import { BookOpen, GraduationCap, House } from "lucide-react";
 import { useUserStore } from "@/store/userStore";
 
-import { NavMain } from "@/components/dashboard/nav-main";
-import { NavUser } from "@/components/dashboard/nav-user";
+import { NavMain } from "@/components/dashboard/sidebar/nav-main";
+import { NavUser } from "@/components/dashboard/sidebar/nav-user";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { SidebarBrand } from "./SidebarBrand";
-import QuickStats from "./quickStats";
+import { SidebarBrand } from "../SidebarBrand";
+import QuickStats from "../quickStats";
 
 const navMainData = [
   { title: "خانه", url: "/dashboard", icon: House },

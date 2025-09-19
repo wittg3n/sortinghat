@@ -12,11 +12,13 @@ import {
   TrendingUp,
   MessageCircle,
   Zap,
+  ArrowLeft,
 } from "lucide-react";
 import { PricingCard } from "@/components/payment/PricingCard";
 import { FeatureSection } from "@/components/payment/FeatureSection";
 import { PlansComparisonTable } from "@/components/payment/PlansComparisonTable";
-
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 export default function SubscriptionPage() {
   const pricingPlans = [
     {
@@ -107,9 +109,19 @@ export default function SubscriptionPage() {
       ["قیمت", "۵۰,۰۰۰ تومان", "۷۵۰,۰۰۰ تومان", "۱,۵۰۰,۰۰۰ تومان"],
     ],
   };
-
+  const router = useRouter();
   return (
     <main className="flex flex-col min-h-screen bg-gradient-to-br from-gray-900 via-gray-900 to-teal-900/20">
+      <div className="keyboard-focus-outline fixed top-4 left-4 z-50">
+        {" "}
+        <Button
+          className="text-white bg-none bg-gray-900 hover:bg-gray-800"
+          onClick={() => router.back()}
+        >
+          <ArrowLeft className="h-5 w-5" />
+        </Button>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col gap-8">
         {/* Header */}
         <div className="text-center relative">

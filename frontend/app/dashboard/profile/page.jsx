@@ -180,7 +180,6 @@ export default function ProfilePage() {
           </AnimatedCard>
         </section>
 
-        {/* ریسپانسیو */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4  gap-6 pt-5 px-4 md:px-6 mb-10">
           {/* doc upload */}
           <Card className="backdrop-blur-sm border-gray-800 sm:col-span-2 lg:col-span-4">

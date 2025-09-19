@@ -7,8 +7,8 @@ import {
   LogOut,
   Sparkles,
 } from "lucide-react";
-
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Avatar from "boring-avatars";
+import { AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -37,16 +37,38 @@ export function NavUser({ user }) {
       await axios.delete("http://localhost:5000/api/v1/users/logout", {
         withCredentials: true,
       });
-
-      // remove cookie manually (in case backend doesn’t)
       document.cookie =
         "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;";
-
       router.push("/login");
     } catch (err) {
       console.error("Logout failed:", err);
     }
   }
+
+  const renderAvatar = (size = 32) => {
+    if (user.avatar) {
+      return (
+        <AvatarImage src={user.avatar} alt={user.name} className="rounded-lg" />
+      );
+    } else {
+      return (
+        <Avatar
+          size={size}
+          name={user.name}
+          variant="beam"
+          colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+          className="rounded-lg"
+        />
+      );
+    }
+  };
+
+  const initialsFallback = user.name
+    .split(" ")
+    .map((n) => n[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
 
   return (
     <SidebarMenu>
@@ -57,16 +79,17 @@ export function NavUser({ user }) {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground flex flex-row-reverse gap-2"
             >
-              <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">
-                  {user.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .slice(0, 2)
-                    .join("")
-                    .toUpperCase()}
-                </AvatarFallback>
+              <Avatar
+                name={user?.name || "کاربر"}
+                className="h-10 w-10 rounded-lg"
+              >
+                {user.avatar ? (
+                  <AvatarImage src={user.avatar} alt={user.name} />
+                ) : (
+                  <AvatarFallback className="rounded-lg">
+                    {initialsFallback}
+                  </AvatarFallback>
+                )}
               </Avatar>
               <div className="grid flex-1 text-right text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
@@ -84,16 +107,17 @@ export function NavUser({ user }) {
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex flex-row-reverse items-center gap-2 px-1 py-1.5 text-right text-sm">
-                <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">
-                    {user.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .slice(0, 2)
-                      .join("")
-                      .toUpperCase()}
-                  </AvatarFallback>
+                <Avatar
+                  className="h-8 w-8 rounded-lg"
+                  name={user?.name || "کاربر"}
+                >
+                  {user.avatar ? (
+                    <AvatarImage src={user.avatar} alt={user.name} />
+                  ) : (
+                    <AvatarFallback className="rounded-lg">
+                      {initialsFallback}
+                    </AvatarFallback>
+                  )}
                 </Avatar>
                 <div className="grid flex-1 text-right text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
@@ -106,10 +130,7 @@ export function NavUser({ user }) {
 
             <DropdownMenuGroup>
               <DropdownMenuItem className="flex flex-row-reverse gap-2">
-                <Link
-                  href={"/dashboard/user/payment"}
-                  className="flex flex-row-reverse gap-2"
-                >
+                <Link href={"/payment"} className="flex flex-row-reverse gap-2">
                   <Sparkles />
                   حساب خود را ارتقا دهید
                 </Link>

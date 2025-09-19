@@ -30,7 +30,7 @@ export default async function Page() {
               <Link href="/universities">
                 <Button
                   variant="outline"
-                  className="border-white/30 text-white hover:bg-white/20"
+                  className="border-white/30 text-white hover:bg-black/90"
                 >
                   مشاهده پیشنهادها
                 </Button>
