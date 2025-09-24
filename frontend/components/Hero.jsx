@@ -68,7 +68,6 @@ export const AnimatedBackground = () => {
     </div>
   );
 };
-// ⚡ Typewriter Effect Component
 const TypewriterText = ({ text, speed = 70, pause = 2000 }) => {
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -78,22 +77,18 @@ const TypewriterText = ({ text, speed = 70, pause = 2000 }) => {
     let timer;
 
     if (!isDeleting && index < text.length) {
-      // Typing forward
       timer = setTimeout(() => {
         setDisplayText(text.slice(0, index + 1));
         setIndex(index + 1);
       }, speed);
     } else if (!isDeleting && index === text.length) {
-      // Pause at full text
       timer = setTimeout(() => setIsDeleting(true), pause);
     } else if (isDeleting && index > 0) {
-      // Deleting backwards
       timer = setTimeout(() => {
         setDisplayText(text.slice(0, index - 1));
         setIndex(index - 1);
       }, speed / 1.8);
     } else if (isDeleting && index === 0) {
-      // Restart typing
       setIsDeleting(false);
     }
 
@@ -108,7 +103,6 @@ const TypewriterText = ({ text, speed = 70, pause = 2000 }) => {
   );
 };
 
-// 🚀 Main Hero Section
 export const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -121,7 +115,6 @@ export const Hero = () => {
       <AnimatedBackground />
 
       <section className="relative overflow-hidden pt-[200px]  pb-45 md:pb-50 ">
-        {/* 🔮 Floating Elements */}
         <motion.div
           className="absolute top-1/4 left-1/4 w-64 h-64 bg-[conic-gradient(at_top_left,_#ff6b6b,_#feca57,_#48dbfb,_#1dd1a1,_#5f27cd,_#ff6b6b)] opacity-40 rounded-full blur-3xl"
           animate={{

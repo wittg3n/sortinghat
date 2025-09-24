@@ -1,6 +1,15 @@
 import jwt from "jsonwebtoken";
 import User from "../schema/User.js";
+import fs from "fs";
+import { scanFileWithVirusTotal } from "../middleware/virusTotal.js";
+import path from "path";
+import { nanoid } from "nanoid";
+import { fileTypeFromFile } from "file-type";
+const uploadRateLimitMap = new Map();
+const UPLOAD_LIMIT = 5; // max uploads
+const WINDOW_MS = 60 * 1000;
 
+const fsPromises = fs.promises;
 const generateToken = (user) =>
   jwt.sign(
     { id: user._id, email: user.email },
@@ -120,6 +129,112 @@ const userController = {
       return res
         .status(401)
         .json({ valid: false, message: "Invalid or expired token" });
+    }
+  },
+  uploadProfilePictureWithScan: async (req, res) => {
+    try {
+      if (!req.user)
+        return res.status(401).json({ message: "Not authenticated" });
+      if (!req.file)
+        return res.status(400).json({ message: "No file uploaded" });
+
+      // ------------------ Rate Limit ------------------
+      const userId = req.user._id.toString();
+      const now = Date.now();
+      const timestamps = uploadRateLimitMap.get(userId) || [];
+      const recent = timestamps.filter((ts) => now - ts < WINDOW_MS);
+
+      if (recent.length >= UPLOAD_LIMIT) {
+        await fsPromises.unlink(req.file.path).catch(() => {});
+        return res
+          .status(429)
+          .json({ message: "Too many uploads, please wait." });
+      }
+
+      recent.push(now);
+      uploadRateLimitMap.set(userId, recent);
+
+      // ------------------ Ensure tmp folder exists ------------------
+      const tmpDir = path.join(process.cwd(), "tmp");
+      await fsPromises.mkdir(tmpDir, { recursive: true });
+
+      // ------------------ Validate file type ------------------
+      const fileType = await fileTypeFromFile(req.file.path);
+      if (
+        !fileType ||
+        !["image/png", "image/jpeg", "image/webp"].includes(fileType.mime)
+      ) {
+        await fsPromises.unlink(req.file.path);
+        return res
+          .status(400)
+          .json({ message: "Invalid file type. Only images allowed." });
+      }
+
+      // ------------------ VirusTotal Scan ------------------
+      let stats = {};
+      try {
+        const attrs = await scanFileWithVirusTotal(req.file.path, {
+          apiKey: process.env.VIRUSTOTAL_API_KEY,
+          timeoutMs: 30000,
+        });
+        stats = attrs?.data?.attributes?.last_analysis_stats || {};
+      } catch (err) {
+        if (err.response?.status === 409) {
+          console.warn("File already queued/scanned. Proceeding with upload.");
+          stats = { info: "File already scanned or queued" };
+        } else {
+          console.error("VirusTotal scan error:", err);
+          await fsPromises.unlink(req.file.path).catch(() => {});
+          return res.status(500).json({ message: "Virus scan failed" });
+        }
+      }
+
+      // Reject malicious or suspicious files
+      if ((stats.malicious || 0) > 0 || (stats.suspicious || 0) > 0) {
+        await fsPromises.unlink(req.file.path);
+        return res
+          .status(400)
+          .json({ message: "File rejected (malicious)", stats });
+      }
+
+      // ------------------ Move to uploads ------------------
+      const uploadsDir = path.join(process.cwd(), "uploads");
+      await fsPromises.mkdir(uploadsDir, { recursive: true });
+
+      const safeFilename = path.basename(req.file.originalname);
+      const finalName = `${Date.now()}-${nanoid(8)}${path.extname(
+        safeFilename
+      )}`;
+      const finalPath = path.join(uploadsDir, finalName);
+
+      await fsPromises.rename(req.file.path, finalPath);
+
+      // ------------------ Delete old picture ------------------
+      if (req.user.profilePicture) {
+        const oldPath = path.join(
+          uploadsDir,
+          path.basename(req.user.profilePicture)
+        );
+        try {
+          await fsPromises.unlink(oldPath);
+        } catch {}
+      }
+
+      // ------------------ Update DB ------------------
+      req.user.profilePicture = finalName;
+      await req.user.save();
+
+      res.status(200).json({
+        message: "Profile picture updated",
+        file: `/uploads/${finalName}`,
+        stats,
+      });
+    } catch (err) {
+      console.error("Upload error:", err);
+      try {
+        if (req.file?.path) await fsPromises.unlink(req.file.path);
+      } catch {}
+      res.status(500).json({ message: "Upload failed", error: err.message });
     }
   },
 };

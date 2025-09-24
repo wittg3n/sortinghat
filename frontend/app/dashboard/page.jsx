@@ -23,14 +23,14 @@ export default async function Page() {
           >
             <div className="flex flex-wrap gap-3">
               <Link href="/profile">
-                <Button className="bg-white/20 text-white border-white/30 hover:bg-white/30">
+                <Button className="bg-white/20 text-white border-white/30 hover:bg-white/30 cursor-pointer">
                   تکمیل پروفایل
                 </Button>
               </Link>
               <Link href="/universities">
                 <Button
                   variant="outline"
-                  className="border-white/30 text-white hover:bg-black/90"
+                  className="border-white/30 text-white hover:bg-black/90 cursor-pointer"
                 >
                   مشاهده پیشنهادها
                 </Button>

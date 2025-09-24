@@ -43,8 +43,19 @@ export default function AnimatedLoginPage() {
 
   const { login, loading, error } = useAuth();
 
-  const onSubmit = async (values) => {
-    await login(values); // hook handles redirect and errors
+  const onSubmit = async (values, event) => {
+    // If a real form submission is being prevented, the browser might not see it.
+    // So here we use Credential Management API after login.
+    const res = await login(values); // your hook handles redirect and errors
+
+    try {
+      if (res && "ok" in res && res.ok && window.PasswordCredential) {
+        const cred = new PasswordCredential(event.target);
+        await navigator.credentials.store(cred);
+      }
+    } catch (err) {
+      console.warn("Could not store credentials:", err);
+    }
   };
 
   return (
@@ -68,7 +79,7 @@ export default function AnimatedLoginPage() {
             aria-label="home"
             className="flex items-center space-x-reverse space-x-2 w-full"
           >
-            <Logo className="w-full h-auto " />
+            <Logo className="w-full h-auto" />
           </Link>
         </motion.div>
 
@@ -97,10 +108,15 @@ export default function AnimatedLoginPage() {
           کنید
         </motion.p>
 
+        {/* Here we wrap in a real form tag, with autocomplete */}
         <Form {...form}>
           <form
+            id="loginForm"
             onSubmit={form.handleSubmit(onSubmit)}
             className="mt-6 space-y-5"
+            autoComplete="on"
+            // name attribute helps Credential API
+            name="login-form"
           >
             {/* Email */}
             <FormField
@@ -118,10 +134,12 @@ export default function AnimatedLoginPage() {
                       </div>
                       <Input
                         id="email"
+                        // The “name” should match the form field name
+                        name="email"
                         type="email"
                         placeholder="you@example.com"
                         className="pl-9"
-                        autoComplete="email"
+                        autoComplete="username"
                         {...field}
                       />
                     </div>
@@ -143,6 +161,7 @@ export default function AnimatedLoginPage() {
                   <FormControl>
                     <Input
                       id="password"
+                      name="password"
                       type="password"
                       placeholder="••••••••"
                       autoComplete="current-password"

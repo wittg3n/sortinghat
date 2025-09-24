@@ -7,6 +7,8 @@ import { connectDB } from "./config/db.js";
 import "./config/passport.js";
 import authRoutes from "./routes/authRoutes.js";
 import cookieParser from "cookie-parser";
+import userUploadRoutes from "./routes/userUploadRoutes.js";
+import path from "path";
 
 dotenv.config();
 const app = express();
@@ -32,8 +34,8 @@ app.use(passport.initialize());
 
 // Routes
 app.use("/api/v1/users", authRoutes);
-app.use("/uploads", express.static("uploads"));
-
+app.use("/api/v1/user/upload/", userUploadRoutes);
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 // Root healthcheck
 app.get("/", (req, res) => res.send("Server running"));
 

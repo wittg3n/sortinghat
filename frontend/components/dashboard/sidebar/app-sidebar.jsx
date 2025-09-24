@@ -37,7 +37,7 @@ export function AppSidebar({ token, ...props }) {
         if (res.ok) {
           const data = await res.json();
           setUser(data); // store user in Zustand
-          console.log("this is data from sidebar", data);
+          console.log(data);
         } else {
           console.warn("Failed to fetch user profile, status:", res.status);
         }
@@ -59,15 +59,14 @@ export function AppSidebar({ token, ...props }) {
       </SidebarContent>
 
       <SidebarFooter>
-        <NavUser
-          user={
-            user || {
-              name: "درحال بارگیری ...",
-              email: "m@example.com",
-              avatar: "/avatars/shadcn.jpg",
-            }
-          }
-        />
+        {/* فقط وقتی user آماده است رندر کن */}
+        {user ? (
+          <NavUser user={user} />
+        ) : (
+          <div className="p-4 text-sm text-muted-foreground">
+            در حال بارگذاری...
+          </div>
+        )}
       </SidebarFooter>
 
       <SidebarRail />

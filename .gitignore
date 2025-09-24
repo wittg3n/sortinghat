@@ -31,3 +31,6 @@ backend/dist/
 .DS_Store
 .envrc
 .venv
+
+/backend/tmp/
+/backend/uploads

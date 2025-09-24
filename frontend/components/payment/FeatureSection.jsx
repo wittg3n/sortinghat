@@ -12,7 +12,7 @@ export function FeatureSection({ title, features }) {
         {features.map((f, i) => (
           <div
             key={i}
-            className="flex flex-col items-center text-center p-4 bg-gray-800 rounded-lg shadow-md"
+            className="flex flex-col items-center text-center p-4 rounded-lg shadow-md"
           >
             {f.icon && <f.icon className="w-10 h-10 mb-2" />}
             <h3 className="font-bold text-lg mb-1">{f.title}</h3>

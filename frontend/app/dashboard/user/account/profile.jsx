@@ -30,7 +30,7 @@ import Avatar from "boring-avatars";
 import Cropper from "react-easy-crop";
 import { Slider } from "@/components/ui/slider";
 import { useUserStore } from "@/store/userStore";
-
+import Image from "next/image";
 // helper for cropping
 const getCroppedImg = (imageSrc, pixelCrop) => {
   const image = new Image();
@@ -144,14 +144,17 @@ export default function Page({ token }) {
       <div className="flex flex-col gap-6 p-6">
         {/* پروفایل کاربر */}
         <Card className="flex flex-col md:flex-row items-center md:items-start gap-6 p-6">
-          {user?.avatar ? (
-            <img
-              src={user.avatar}
-              alt="avatar"
-              className="w-32 h-32 rounded-full"
-            />
+          {user?.profilePicture ? (
+            <div className="w-32 h-32 relative rounded-full overflow-hidden ">
+              <Image
+                src={`http://localhost:5000${user.profilePicture}`}
+                alt="avatar"
+                fill
+                className="object-cover"
+              />
+            </div>
           ) : (
-            <Avatar size={128} name={user?.name || "کاربر"} variant="beam" />
+            <Avatar size={128} name={user?.name || "کاربر"} variant="marble" />
           )}
 
           <div className="flex flex-col gap-3 flex-1">

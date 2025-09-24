@@ -1,12 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import React from "react";
 
 export default function AnimatedCard({
   title,
   subtitle,
   icon,
+  imageUrl,
   gradientFrom,
   gradientTo,
   circleVariants,
@@ -32,9 +34,22 @@ export default function AnimatedCard({
       {/* Content */}
       <div className="relative z-10">
         <div className="flex items-center gap-6">
-          {icon && (
-            <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
-              {icon}
+          {(icon || imageUrl) && (
+            <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center overflow-hidden">
+              {imageUrl ? (
+                <div className="relative w-20 h-20 rounded-full overflow-hidden">
+                  <Image
+                    src={imageUrl}
+                    alt={title}
+                    fill
+                    className="object-cover"
+                    sizes="80px"
+                    priority
+                  />
+                </div>
+              ) : (
+                icon
+              )}
             </div>
           )}
           <div>

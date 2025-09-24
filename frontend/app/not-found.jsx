@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
+import { Footer } from "@/components/Footer";
 export default function NotFound() {
   const router = useRouter();
 
@@ -27,6 +27,7 @@ export default function NotFound() {
           </Button>
         </div>
       </div>
+      <Footer></Footer>
     </main>
   );
 }
