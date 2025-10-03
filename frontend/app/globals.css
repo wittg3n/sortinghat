@@ -290,13 +290,17 @@
       opacity: 0;
     }
   }
-  --animate-background-position-spin: background-position-spin 3000ms infinite alternate
-;
+  --animate-background-position-spin: background-position-spin 3000ms infinite
+    alternate;
   @keyframes background-position-spin {
-  0% {
-    background-position: top center;}
-  100% {
-    background-position: bottom center;}}}
+    0% {
+      background-position: top center;
+    }
+    100% {
+      background-position: bottom center;
+    }
+  }
+}
 
 :root {
   --radius: 0.75rem;
@@ -443,35 +447,84 @@
   width: 100%;
   height: 100%;
 }
-@font-face {
-  font-family: "Anjoman";
-  src: url("/fonts/Anjoman-Medium.ttf") format("truetype");
-  font-weight: 500;
-  font-style: normal;
-}
 
+/* Estedad Font Faces */
 @font-face {
-  font-family: "Anjoman";
-  src: url("/fonts/Anjoman-Heavy.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Mistral";
-  src: url("/fonts/MISTRAL.ttf") format("truetype");
-  font-weight: normal;
+  font-family: "Estedad";
+  src: url("/fonts/Estedad-Thin.ttf") format("truetype");
+  font-weight: 100;
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
-  font-family: "Anjoman";
-  src: url("/fonts/Anjoman-UltraBold.ttf") format("truetype");
+  font-family: "Estedad";
+  src: url("/fonts/Estedad-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Estedad";
+  src: url("/fonts/Estedad-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Estedad";
+  src: url("/fonts/Estedad-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Estedad";
+  src: url("/fonts/Estedad-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Estedad";
+  src: url("/fonts/Estedad-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Estedad";
+  src: url("/fonts/Estedad-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Estedad";
+  src: url("/fonts/Estedad-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Estedad";
+  src: url("/fonts/Estedad-Black.ttf") format("truetype");
   font-weight: 900;
   font-style: normal;
+  font-display: swap;
 }
+
 body {
-  font-family: "Anjoman", sans-serif;
+  font-family: "Estedad", sans-serif;
 }
+
 .text-rotate {
   display: flex;
   flex-wrap: wrap;
@@ -505,88 +558,93 @@ body {
   display: inline-block;
 }
 ::selection {
-  background-color: #4dbbbb; /* background of selection */
+  background-color: #f1ab54; /* background of selection */
   color: #333333; /* text color */
 }
 .text-rotate-space {
   white-space: pre;
 }
 @theme {
-  --color-gray-50: #f5f5f5;
-  --color-gray-100: #e5e5e5;
-  --color-gray-200: #cccccc;
-  --color-gray-300: #b3b3b3;
-  --color-gray-400: #999999;
-  --color-gray-500: #7f7f7f;
-  --color-gray-600: #666666;
-  --color-gray-700: #4c4c4c;
-  --color-gray-800: #333333;
-  --color-gray-900: #111111;
+  /* Gray (from #f8fafc & #1e293b) */
+  --color-mist-50: #f8fafc;
+  --color-mist-100: #f1f5f9;
+  --color-mist-200: #e2e8f0;
+  --color-mist-300: #cbd5e1;
+  --color-mist-400: #94a3b8;
+  --color-mist-500: #64748b;
+  --color-mist-600: #475569;
+  --color-mist-700: #334155;
+  --color-mist-800: #1e293b; /* base dark */
+  --color-mist-900: #0f172a;
+  --color-mist-950: #020617;
 
-  --color-orange-50: #fff3e9;
-  --color-orange-100: #ffd9b8;
-  --color-orange-200: #ffbf87;
-  --color-orange-300: #fca45c;
-  --color-orange-400: #f2893d;
-  --color-orange-500: #e78952;
-  --color-orange-600: #d17842;
-  --color-orange-700: #b56536;
-  --color-orange-800: #8f4f28;
-  --color-orange-900: #6b3a1c;
+  /* greengray (from #6a7b76) */
+  --color-sage-50: #f3f4f3;
+  --color-sage-100: #e2e6e4;
+  --color-sage-200: #c5ccc9;
+  --color-sage-300: #a9b3ae;
+  --color-sage-400: #8d9a93;
+  --color-sage-500: #6a7b76; /* base */
+  --color-sage-600: #53625d;
+  --color-sage-700: #3d4945;
+  --color-sage-800: #272f2c;
+  --color-sage-900: #101514;
 
-  --color-teal-50: #e6f7f7;
-  --color-teal-100: #b3e3e3;
-  --color-teal-200: #80cfcf;
-  --color-teal-300: #4dbbbb;
-  --color-teal-400: #26a6a6;
-  --color-teal-500: #5e8787;
-  --color-teal-600: #4e6f6f;
-  --color-teal-700: #3f5757;
-  --color-teal-800: #2f3f3f;
-  --color-teal-900: #202828;
+  /* Honey (from #f59e0b) */
+  --color-honey-50: #fffbeb;
+  --color-honey-100: #fef3c7;
+  --color-honey-200: #fde68a;
+  --color-honey-300: #fcd34d;
+  --color-honey-400: #fbbf24;
+  --color-honey-500: #f59e0b; /* base */
+  --color-honey-600: #d97706;
+  --color-honey-700: #b45309;
+  --color-honey-800: #92400e;
+  --color-honey-900: #78350f;
+  --color-honey-950: #451a03;
 
-  --color-peach-50: #fff8f0;
-  --color-peach-100: #ffe5c7;
-  --color-peach-200: #ffd39e;
-  --color-peach-300: #ffc075;
-  --color-peach-400: #ffad4c;
-  --color-peach-500: #faca97;
-  --color-peach-600: #e5b783;
-  --color-peach-700: #cc9f6e;
-  --color-peach-800: #a67f58;
-  --color-peach-900: #805f42;
+  /* Ocean (from #2563eb) */
+  --color-ocean-50: #eff6ff;
+  --color-ocean-100: #dbeafe;
+  --color-ocean-200: #bfdbfe;
+  --color-ocean-300: #93c5fd;
+  --color-ocean-400: #60a5fa;
+  --color-ocean-500: #3b82f6;
+  --color-ocean-600: #2563eb; /* base */
+  --color-ocean-700: #1d4ed8;
+  --color-ocean-800: #1e40af;
+  --color-ocean-900: #1e3a8a;
+  --color-ocean-950: #172554;
 
-  /* New purple-pink shades based on #c749a5 */
-  --color-magenta-50: #fde6f3;
-  --color-magenta-100: #f8b3da;
-  --color-magenta-200: #f080c1;
-  --color-magenta-300: #eb4dab;
-  --color-magenta-400: #e22699;
-  --color-magenta-500: #c749a5; /* base color */
-  --color-magenta-600: #a43a87;
-  --color-magenta-700: #822f6b;
-  --color-magenta-800: #611f4c;
-  --color-magenta-900: #400f2f;
+  /* dark blue (support neutral set) */
+  --color-stone-50: #fafafa;
+  --color-stone-100: #f4f4f5;
+  --color-stone-200: #e4e4e7;
+  --color-stone-300: #d4d4d8;
+  --color-stone-400: #a1a1aa;
+  --color-stone-500: #71717a;
+  --color-stone-600: #52525b;
+  --color-stone-700: #3f3f46;
+  --color-stone-800: #27272a;
+  --color-stone-900: #18181b;
+  --color-stone-950: #0a0a0a;
 }
 
 ::-webkit-scrollbar {
-  width: 8px; /* vertical scrollbar width */
-  height: 8%; /* horizontal scrollbar height */
+  width: 8px;
+  height: 8%;
 }
 
-/* Scrollbar Track */
 ::-webkit-scrollbar-track {
-  background: #111111;
+  background: #efefef;
   border-radius: 2px;
 }
 
-/* Scrollbar Thumb */
 ::-webkit-scrollbar-thumb {
-  background-color: #333333;
+  background-color: #e1e1e1;
   border-radius: 10px;
 }
 
-/* Scrollbar Thumb Hover */
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #333333;
+  background-color: #cdcdcd;
 }

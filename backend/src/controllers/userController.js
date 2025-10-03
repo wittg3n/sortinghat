@@ -34,7 +34,22 @@ const userController = {
         return res.status(400).json({ message: "Email already exists" });
 
       const newUser = new User({ name, email, password });
-      await newUser.save();
+      try {
+        await newUser.save();
+      } catch (err) {
+        if (err.code === 11000) {
+          if (err.keyPattern?.email) {
+            return res.status(400).json({ message: "Email already exists" });
+          }
+          if (err.keyPattern?.phone) {
+            return res
+              .status(400)
+              .json({ message: "Phone number already exists" });
+          }
+        }
+        console.error("Signup error:", err);
+        return res.status(500).json({ message: "Server error" });
+      }
 
       const token = generateToken(newUser);
 

@@ -99,15 +99,7 @@ export const HeroHeader = () => {
                     <span>ورود</span>
                   </Link>
                 </Button>
-                <Button
-                  asChild
-                  size="sm"
-                  className={cn(isScrolled && "lg:hidden")}
-                >
-                  <Link href={"/signup"}>
-                    <span>ساخت اکانت</span>
-                  </Link>
-                </Button>
+
                 <Button
                   asChild
                   size="sm"

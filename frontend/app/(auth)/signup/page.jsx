@@ -5,9 +5,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, Mail, User, Lock } from "lucide-react";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
-// shadcn/ui components
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,67 +18,69 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { Logo } from "@/components/logo";
-import Link from "next/link";
 
-// --- Validation schema ---
-const SignupSchema = z
+// ================= SCHEMAS =================
+const Stage1Schema = z
   .object({
-    name: z
-      .string({ required_error: "نام را وارد کنید" })
-      .min(2, "نام باید حداقل ۲ کاراکتر باشد"),
-    email: z
-      .string({ required_error: "ایمیل را وارد کنید" })
-      .min(1, "ایمیل را وارد کنید")
-      .email("ایمیل معتبر نیست"),
-    password: z
-      .string({ required_error: "گذرواژه را وارد کنید" })
-      .min(8, "گذرواژه باید حداقل ۸ کاراکتر باشد"),
-    confirmPassword: z.string({ required_error: "تکرار گذرواژه را وارد کنید" }),
+    name: z.string().min(2, "نام باید حداقل ۲ کاراکتر باشد"),
+    email: z.string().email("ایمیل معتبر نیست"),
+    password: z.string().min(8, "گذرواژه باید حداقل ۸ کاراکتر باشد"),
+    confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    path: ["confirmPassword"],
     message: "گذرواژه‌ها مطابقت ندارند",
+    path: ["confirmPassword"],
   });
 
-export default function AnimatedSignupPage() {
+const Stage2Schema = z.object({
+  phone: z.string().min(8, "شماره معتبر نیست"),
+});
+
+const Stage3Schema = z.object({
+  gpa: z.string().optional(),
+  major: z.string().optional(),
+  sat: z.string().optional(),
+  ielts: z.string().optional(),
+  profilePicture: z.any().optional(),
+});
+
+// ================= COMPONENT =================
+export default function MultiStepSignup() {
+  const [stage, setStage] = useState(1);
+  const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [submitError, setSubmitError] = useState("");
 
-  const form = useForm({
-    resolver: zodResolver(SignupSchema),
-    defaultValues: { name: "", email: "", password: "", confirmPassword: "" },
-    mode: "onChange",
-  });
+  // Stage forms
+  const form1 = useForm({ resolver: zodResolver(Stage1Schema) });
+  const form2 = useForm({ resolver: zodResolver(Stage2Schema) });
+  const form3 = useForm({ resolver: zodResolver(Stage3Schema) });
 
-  const onSubmit = async (values) => {
-    setSubmitError("");
-    setLoading(true);
+  const nextStage = (values) => {
+    setFormData((prev) => ({ ...prev, ...values }));
+    setStage((s) => s + 1);
+  };
+
+  const prevStage = () => setStage((s) => s - 1);
+
+  const finalSubmit = async (values) => {
+    const allData = { ...formData, ...values };
+
+    const formBody = new FormData();
+    Object.entries(allData).forEach(([key, value]) => {
+      if (value) formBody.append(key, value);
+    });
+
     try {
+      setLoading(true);
       const res = await fetch("http://localhost:5000/api/users/signup", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: formBody, // includes file upload
       });
 
-      if (!res.ok) {
-        const errData = await res.json().catch(() => ({}));
-        console.log(errData);
-        throw new Error(errData.message || "Signup failed");
-      }
-
-      const data = await res.json();
-
-      if (data.token) {
-        localStorage.setItem("token", data.token);
-      }
-
-      setOpen(true);
-      form.reset();
-    } catch (e) {
-      setSubmitError(e.message || "Something went wrong. Please try again.");
+      if (!res.ok) throw new Error("ثبت نام ناموفق بود");
+      alert("ثبت نام با موفقیت انجام شد ✅");
+    } catch (err) {
+      alert(err.message);
     } finally {
       setLoading(false);
     }
@@ -86,234 +88,242 @@ export default function AnimatedSignupPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background to-muted/40 p-4">
-      <motion.div
-        initial={{ opacity: 0, y: 40, scale: 0.9 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ type: "spring", stiffness: 100, damping: 15 }}
-        className="w-full max-w-md"
-      >
-        <div className="p-6 sm:p-8">
-          {/* Logo */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.5, rotate: -15 }}
-            animate={{ opacity: 1, scale: 1.1, rotate: 0 }}
-            transition={{ type: "spring", stiffness: 140, damping: 8 }}
-            whileHover={{ scale: 1.15, rotate: 2 }}
-            className="flex justify-center mb-10 w-[120px] mx-auto"
-          >
-            <Link
-              href="/"
-              aria-label="home"
-              className="flex items-center w-full"
-            >
-              <Logo className="w-full h-auto" />
-            </Link>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground text-center"
-          >
-            ایجاد حساب کاربری
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-sm text-muted-foreground mt-3 text-center"
-          >
-            حساب کاربری دارید؟{" "}
-            <Link
-              href="/login"
-              className="underline underline-offset-4 hover:text-primary"
-            >
-              وارد شوید
-            </Link>{" "}
-          </motion.p>
-
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="mt-6 space-y-5"
-            >
-              {/* Name */}
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <Label htmlFor="name" className="text-sm">
-                      نام
-                    </Label>
-                    <FormControl>
-                      <div className="relative mt-1">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                          <User className="h-4 w-4 opacity-70" />
-                        </div>
-                        <Input
-                          id="name"
-                          type="text"
-                          placeholder="نام شما"
-                          className="pl-9"
-                          {...field}
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Email */}
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <Label htmlFor="email" className="text-sm">
-                      ایمیل
-                    </Label>
-                    <FormControl>
-                      <div className="relative mt-1">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                          <Mail className="h-4 w-4 opacity-70" />
-                        </div>
-                        <Input
-                          id="email"
-                          type="email"
-                          placeholder="you@example.com"
-                          className="pl-9"
-                          autoComplete="email"
-                          {...field}
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Password */}
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <Label htmlFor="password" className="text-sm">
-                      گذرواژه
-                    </Label>
-                    <FormControl>
-                      <Input
-                        id="password"
-                        type="password"
-                        placeholder="••••••••"
-                        autoComplete="new-password"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Confirm Password */}
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <Label htmlFor="confirmPassword" className="text-sm">
-                      تکرار گذرواژه
-                    </Label>
-                    <FormControl>
-                      <Input
-                        id="confirmPassword"
-                        type="password"
-                        placeholder="••••••••"
-                        autoComplete="new-password"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Errors */}
-              <AnimatePresence initial={false}>
-                {submitError && (
-                  <motion.div
-                    key="submit-error"
-                    initial={{ opacity: 0, y: -6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -6 }}
-                    className="text-sm text-destructive"
-                  >
-                    {submitError}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Submit button */}
-              <motion.div
-                whileHover={{ scale: loading ? 1 : 1.05 }}
-                whileTap={{ scale: loading ? 1 : 0.97 }}
-              >
-                <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? (
-                    <span className="inline-flex items-center gap-2">
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                      در حال ثبت نام...
-                    </span>
-                  ) : (
-                    "ثبت نام"
-                  )}
-                </Button>
-              </motion.div>
-            </form>
-          </Form>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.9 }}
-          transition={{ delay: 0.25 }}
-          className="text-center text-xs text-muted-foreground mt-4"
-        >
-          با ثبت نام، شما موافقت می‌کنید با شرایط و قوانین ما.
-        </motion.div>
-      </motion.div>
-
-      {/* Success dialog */}
-      <Dialog open={open} onOpenChange={setOpen}>
-        <AnimatePresence initial={false}>
-          {open && (
+      <motion.div className="w-full max-w-md bg-white shadow-md rounded-xl p-6">
+        {/* Stage container */}
+        <AnimatePresence mode="wait">
+          {/* ========== Stage 1 ========== */}
+          {stage === 1 && (
             <motion.div
-              key="dialog"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ type: "spring", stiffness: 150, damping: 20 }}
+              key="stage1"
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -40 }}
             >
-              <DialogContent className="sm:max-w-md">
-                <DialogTitle> ثبتنام موفق</DialogTitle>
-                <div className="space-y-2">
-                  <h2 className="text-xl font-semibold">ثبت نام موفق</h2>
-                  <p className="text-sm text-muted-foreground">
-                    حساب شما با موفقیت ایجاد شد!
-                  </p>
-                </div>
-                <div className="flex justify-end">
-                  <Button onClick={() => setOpen(false)}>ادامه</Button>
-                </div>
-              </DialogContent>
+              <Form {...form1}>
+                <form
+                  onSubmit={form1.handleSubmit(nextStage)}
+                  className="space-y-4"
+                >
+                  <FormField
+                    name="name"
+                    control={form1.control}
+                    render={({ field }) => (
+                      <FormItem>
+                        <Label>نام</Label>
+                        <FormControl>
+                          <Input {...field} placeholder="نام شما" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="email"
+                    control={form1.control}
+                    render={({ field }) => (
+                      <FormItem>
+                        <Label>ایمیل</Label>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            type="email"
+                            placeholder="you@example.com"
+                            autoComplete="email"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="password"
+                    control={form1.control}
+                    render={({ field }) => (
+                      <FormItem>
+                        <Label>گذرواژه</Label>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            type="password"
+                            placeholder="••••••••"
+                            autoComplete="new-password"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="confirmPassword"
+                    control={form1.control}
+                    render={({ field }) => (
+                      <FormItem>
+                        <Label>تکرار گذرواژه</Label>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            type="password"
+                            placeholder="••••••••"
+                            autoComplete="new-password"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <Button type="submit" className="w-full">
+                    ادامه
+                  </Button>
+                </form>
+              </Form>
+            </motion.div>
+          )}
+
+          {/* ========== Stage 2 ========== */}
+          {stage === 2 && (
+            <motion.div
+              key="stage2"
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -40 }}
+            >
+              <Form {...form2}>
+                <form
+                  onSubmit={form2.handleSubmit(nextStage)}
+                  className="space-y-4"
+                >
+                  <FormField
+                    name="phone"
+                    control={form2.control}
+                    render={({ field }) => (
+                      <FormItem>
+                        <Label>شماره تلفن</Label>
+                        <FormControl>
+                          <PhoneInput
+                            {...field}
+                            international
+                            defaultCountry="IR"
+                            countries={["IR", "FR"]}
+                            placeholder="شماره موبایل"
+                            className="border rounded-md px-3 py-2 w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <div className="flex justify-between">
+                    <Button type="button" variant="outline" onClick={prevStage}>
+                      قبلی
+                    </Button>
+                    <Button type="submit">ادامه</Button>
+                  </div>
+                </form>
+              </Form>
+            </motion.div>
+          )}
+
+          {/* ========== Stage 3 ========== */}
+          {stage === 3 && (
+            <motion.div
+              key="stage3"
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -40 }}
+            >
+              <Form {...form3}>
+                <form
+                  onSubmit={form3.handleSubmit(finalSubmit)}
+                  className="space-y-4"
+                >
+                  <FormField
+                    name="profilePicture"
+                    control={form3.control}
+                    render={({ field }) => (
+                      <FormItem>
+                        <Label>عکس پروفایل (اختیاری)</Label>
+                        <FormControl>
+                          <Input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => field.onChange(e.target.files[0])}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="gpa"
+                    control={form3.control}
+                    render={({ field }) => (
+                      <FormItem>
+                        <Label>GPA</Label>
+                        <FormControl>
+                          <Input {...field} placeholder="مثلاً 3.8" />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="major"
+                    control={form3.control}
+                    render={({ field }) => (
+                      <FormItem>
+                        <Label>رشته مورد نظر</Label>
+                        <FormControl>
+                          <Input {...field} placeholder="Computer Science" />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="sat"
+                    control={form3.control}
+                    render={({ field }) => (
+                      <FormItem>
+                        <Label>SAT</Label>
+                        <FormControl>
+                          <Input {...field} placeholder="1200" />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="ielts"
+                    control={form3.control}
+                    render={({ field }) => (
+                      <FormItem>
+                        <Label>IELTS</Label>
+                        <FormControl>
+                          <Input {...field} placeholder="7.5" />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <div className="flex justify-between">
+                    <Button type="button" variant="outline" onClick={prevStage}>
+                      قبلی
+                    </Button>
+                    <Button type="submit" disabled={loading}>
+                      {loading ? "در حال ثبت نام..." : "ثبت نام"}
+                    </Button>
+                  </div>
+                </form>
+              </Form>
             </motion.div>
           )}
         </AnimatePresence>
-      </Dialog>
+      </motion.div>
     </div>
   );
 }

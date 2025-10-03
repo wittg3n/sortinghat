@@ -190,7 +190,7 @@ export default function AnimatedLoginPage() {
 
             {/* Submit button */}
             <motion.div
-              whileHover={{ scale: loading ? 1 : 1.05 }}
+              whileHover={{ scale: loading ? 1 : 1 }}
               whileTap={{ scale: loading ? 1 : 0.97 }}
             >
               <Button
