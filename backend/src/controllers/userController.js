@@ -10,30 +10,58 @@ const UPLOAD_LIMIT = 5; // max uploads
 const WINDOW_MS = 60 * 1000;
 
 const fsPromises = fs.promises;
-const generateToken = (user) =>
-  jwt.sign(
-    { id: user._id, email: user.email },
-    process.env.JWT_SECRET,
-    { expiresIn: "7d" } // Token expires in 7 days
-  );
+const assertJwtSecret = () => {
+  if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET is not configured");
+  }
+  return process.env.JWT_SECRET;
+};
 
-const cookieOptions = {
+const authCookieOptions = {
   httpOnly: true, // cannot be accessed by JS
   secure: process.env.NODE_ENV === "production", // HTTPS only in production
   sameSite: "strict", // prevents CSRF
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
+  path: "/",
+};
+
+const issueAuthToken = (user) =>
+  jwt.sign({ id: user._id, email: user.email }, assertJwtSecret(), {
+    expiresIn: "7d",
+    subject: user._id?.toString(),
+  });
+
+const setAuthCookie = (res, token) => {
+  res.cookie("token", token, authCookieOptions);
+};
+
+const buildSafeUserResponse = (user) => {
+  const serialized = typeof user.toJSON === "function" ? user.toJSON() : user;
+
+  return {
+    id: serialized._id?.toString(),
+    fullName: serialized.fullName || serialized.name,
+    email: serialized.email,
+    phone: serialized.phone,
+    role: serialized.role,
+    emailVerified: Boolean(serialized.emailVerified),
+    phoneVerified: Boolean(serialized.phoneVerified),
+    profilePicture: serialized.profilePicture
+      ? `/uploads/${serialized.profilePicture}`
+      : null,
+  };
 };
 
 const userController = {
   // ------------------- SIGNUP -------------------
   signup: async (req, res) => {
-    const { name, email, password } = req.body;
+    const { fullName, email, password } = req.body;
     try {
       const existingUser = await User.findOne({ email });
       if (existingUser)
         return res.status(400).json({ message: "Email already exists" });
 
-      const newUser = new User({ name, email, password });
+      const newUser = new User({ fullName, email, password });
       try {
         await newUser.save();
       } catch (err) {
@@ -51,12 +79,15 @@ const userController = {
         return res.status(500).json({ message: "Server error" });
       }
 
-      const token = generateToken(newUser);
+      const token = issueAuthToken(newUser);
 
       // Send token as HttpOnly cookie
-      res.cookie("token", token, cookieOptions);
+      setAuthCookie(res, token);
 
-      res.status(201).json({ message: "User created" }); // no need to send token in JSON
+      res.status(201).json({
+        message: "User created",
+        user: buildSafeUserResponse(newUser),
+      });
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Server error" });
@@ -66,12 +97,22 @@ const userController = {
   // ------------------- LOGIN -------------------
   login: async (req, res) => {
     try {
-      const token = generateToken(req.user);
+      if (!req.user) {
+        return res
+          .status(401)
+          .json({ message: "Invalid credentials", loggedIn: false });
+      }
+
+      const token = issueAuthToken(req.user);
 
       // Send token as HttpOnly cookie
-      res.cookie("token", token, cookieOptions);
+      setAuthCookie(res, token);
 
-      res.status(200).json({ message: "Logged in successfully" });
+      res.status(200).json({
+        message: "Logged in successfully",
+        loggedIn: true,
+        user: buildSafeUserResponse(req.user),
+      });
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Server error" });
@@ -110,11 +151,7 @@ const userController = {
 
   // ------------------- LOGOUT -------------------
   logout: (req, res) => {
-    res.clearCookie("token", {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-    });
+    res.clearCookie("token", authCookieOptions);
     res.status(200).json({ message: "Logged out successfully" });
   },
 
@@ -125,7 +162,11 @@ const userController = {
         .status(401)
         .json({ loggedIn: false, message: "Not logged in" });
 
-    res.status(200).json({ loggedIn: true, message: "User is logged in" });
+    res.status(200).json({
+      loggedIn: true,
+      message: "User is logged in",
+      user: buildSafeUserResponse(req.user),
+    });
   },
 
   // ------------------- TOKEN VALIDATOR -------------------
@@ -138,7 +179,7 @@ const userController = {
     }
 
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const decoded = jwt.verify(token, assertJwtSecret());
       return res.status(200).json({ valid: true, user: decoded });
     } catch (err) {
       return res
